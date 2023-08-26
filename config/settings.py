@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'mail_sending.apps.MailSendingConfig',
     'users',
     'blog',
+    'client',
 
 ]
 
