@@ -2,7 +2,37 @@
 
 {% block content %}
 
+<div class="row justify-content-center">
+    <h5 class="card-title text-muted text-center font-weight-bold mb-5"><br>Рассылки<br></h5>
+    <h5 class="card-title text-muted text-center mb-5">Описание сервиса тексттексттексттексттекст</h5>
 
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-sm-4">
+                <h5 class="card-title text-muted text-center font-weight-bold">Всего рассылок</h5>
+                <p class="text-center">{{ total_mailings }}</p>
+            </div>
+            <div class="col-sm-4">
+                <h5 class="card-title text-muted text-center font-weight-bold">Активные рассылки</h5>
+                <p class="text-center">{{ active_mailings }}</p>
+            </div>
+            <div class="col-sm-4">
+                <h5 class="card-title text-muted text-center font-weight-bold">Уникальные клиенты</h5>
+                <p class="text-center">{{ unique_clients }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="album py-5 bg-light">
+    <div class="container">
+
+            <p class="text-center">Блог посты</p>
+
+
+    </div>
+    </div>
+
+</div>
 
 
 {% endblock %}
