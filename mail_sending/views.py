@@ -5,7 +5,7 @@ from client.models import Client
 from blog.models import Blog
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
-
+from mail_sending.forms import MailingForm
 
 '''ГЛАВНАЯ'''
 
@@ -30,3 +30,60 @@ def index(request):
                'posts': random_posts}
 
     return render(request, 'mail_sending/index.html', context)
+
+
+'''РАССЫЛКИ'''
+
+
+class MailingCreateView(CreateView):
+    '''CREATE - создается карточка рассылки'''
+
+    model = Mailing
+    form_class = MailingForm
+    success_url = reverse_lazy('mail_sending:mail_sending_index')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_mat = form.save()
+            new_mat.save()
+
+        return super().form_valid(form)
+
+
+class MailingListView(ListView):
+    '''READ - чтение списка рассылок'''
+
+    model = Mailing
+    template_name = 'mail_sending/mail_sending_index.html'
+
+
+class MailingDetailView(DetailView):
+    '''READ - чтение одной рассылки'''
+
+    model = Mailing
+    success_url = reverse_lazy('mail_sending:mail_sending_detail')
+
+
+class MailingUpdateView(UpdateView):
+    '''UPDATE - обновление записи рассылки'''
+
+    model = Mailing
+    form_class = MailingForm
+    success_url = reverse_lazy('mail_sending:mail_sending_index')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_mat = form.save()
+            new_mat.save()
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('mail_sending:mail_sending_detail', args=[self.kwargs.get('pk')])
+
+
+class MailingDeleteView(DeleteView):
+    '''DELETE - удаление записи рассылки'''
+
+    model = Mailing
+    success_url = reverse_lazy('mail_sending:mail_sending_index')

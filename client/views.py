@@ -55,7 +55,7 @@ class ClientUpdateView(UpdateView):
 
 
 class ClientDeleteView(DeleteView):
-    '''DELETE - удаление записи блога'''
+    '''DELETE - удаление записи клиента'''
 
     model = Client
     success_url = reverse_lazy('client:client_index')
