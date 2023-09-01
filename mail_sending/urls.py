@@ -5,5 +5,5 @@ from .apps import MailSendingConfig
 app_name = MailSendingConfig.name
 
 urlpatterns = [
-    path('', index)
+    path('', index, name='index'),
 ]
