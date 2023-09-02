@@ -8,7 +8,7 @@ from django.urls import reverse_lazy, reverse
 from mail_sending.forms import MailingForm, MessageForm
 
 '''ГЛАВНАЯ'''
-
+# --------------------------------------------------------------------------------------------------------------------------------
 
 def index(request):
     '''Главная страница'''
@@ -33,7 +33,7 @@ def index(request):
 
 
 '''РАССЫЛКИ - Mailing'''
-
+# --------------------------------------------------------------------------------------------------------------------------------
 
 class MailingCreateView(CreateView):
     '''CREATE - создается карточка рассылки'''
@@ -89,8 +89,8 @@ class MailingDeleteView(DeleteView):
     success_url = reverse_lazy('mail_sending:mail_sending_index')
 
 
-
 '''СООБЩЕНИЕ - Message'''
+# --------------------------------------------------------------------------------------------------------------------------------
 
 class MessageCreateView(CreateView):
     '''CREATE - создается сообщение'''
@@ -146,9 +146,18 @@ class MessageDeleteView(DeleteView):
     success_url = reverse_lazy('mail_sending:message_index')
 
 
-
-
-
 '''ЛОГИ - log'''
+# --------------------------------------------------------------------------------------------------------------------------------
+
+class LogListView(ListView):
+    '''READ - чтение списка логов'''
+
+    model = Log
+    template_name = 'mail_sending/log_index.html'
 
 
+class LogDetailView(DetailView):
+    '''READ - чтение одного лога'''
+
+    model = Log
+    success_url = reverse_lazy('mail_sending:log_detail')
