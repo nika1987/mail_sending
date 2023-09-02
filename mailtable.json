@@ -1,0 +1,18 @@
+[
+{
+  "model": "mail_sending.message",
+  "pk": 1,
+  "fields": {
+    "title": "Айфоны Samsung",
+    "text": "Распродажа айфонов Samsung. Хорошие скидки. Найс"
+  }
+},
+{
+  "model": "mail_sending.message",
+  "pk": 2,
+  "fields": {
+    "title": "Ноутбуки Acer",
+    "text": "Скидки! Дешево"
+  }
+}
+]
