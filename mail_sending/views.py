@@ -5,7 +5,7 @@ from client.models import Client
 from blog.models import Blog
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
-from mail_sending.forms import MailingForm
+from mail_sending.forms import MailingForm, MessageForm
 
 '''ГЛАВНАЯ'''
 
@@ -32,7 +32,7 @@ def index(request):
     return render(request, 'mail_sending/index.html', context)
 
 
-'''РАССЫЛКИ'''
+'''РАССЫЛКИ - Mailing'''
 
 
 class MailingCreateView(CreateView):
@@ -87,3 +87,68 @@ class MailingDeleteView(DeleteView):
 
     model = Mailing
     success_url = reverse_lazy('mail_sending:mail_sending_index')
+
+
+
+'''СООБЩЕНИЕ - Message'''
+
+class MessageCreateView(CreateView):
+    '''CREATE - создается сообщение'''
+
+    model = Message
+    form_class = MessageForm
+    success_url = reverse_lazy('mail_sending:message_index')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_mat = form.save()
+            new_mat.save()
+
+        return super().form_valid(form)
+
+
+class MessageListView(ListView):
+    '''READ - чтение списка сообщений'''
+
+    model = Message
+    template_name = 'mail_sending/message_index.html'
+
+
+class MessageDetailView(DetailView):
+    '''READ - чтение одного сообщения'''
+
+    model = Message
+    success_url = reverse_lazy('mail_sending:message_detail')
+
+
+class MessageUpdateView(UpdateView):
+    '''UPDATE - обновление сообщения'''
+
+    model = Message
+    form_class = MessageForm
+    success_url = reverse_lazy('mail_sending:message_index')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_mat = form.save()
+            new_mat.save()
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('mail_sending:message_detail', args=[self.kwargs.get('pk')])
+
+
+class MessageDeleteView(DeleteView):
+    '''DELETE - удаление сообщения'''
+
+    model = Message
+    success_url = reverse_lazy('mail_sending:message_index')
+
+
+
+
+
+'''ЛОГИ - log'''
+
+
