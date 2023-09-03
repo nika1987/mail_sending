@@ -13,7 +13,7 @@
             </div>
             <div class="col-sm-4">
                 <h5 class="card-title text-muted text-center font-weight-bold">Активные рассылки</h5>
-                <p class="text-center"> 000 </p>
+                <p class="text-center"> 0 </p>
             </div>
             <div class="col-sm-4">
                 <h5 class="card-title text-muted text-center font-weight-bold">Уникальные клиенты</h5>
@@ -48,10 +48,6 @@
 
                         <hr>
 
-                        <div class="btn-group">
-                            <a href="{% url 'blog:blog_update' object.pk %}" class="btn btn-outline-success">Edit</a>
-                            <a href="{% url 'blog:blog_delete' object.pk %}" class="btn btn-outline-danger">Delete</a>
-                        </div>
 
                         <a href="{% url 'blog:blog_index' %}" type="button" class="btn btn-sm btn-outline-secondary btn-lg float-end">Блог</a>
 
