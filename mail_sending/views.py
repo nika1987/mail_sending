@@ -10,6 +10,8 @@ from mail_sending.forms import MailingForm, MessageForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 
+from mail_sending.mailing_services import send_mailing
+
 
 '''ГЛАВНАЯ'''
 # --------------------------------------------------------------------------------------------------------------------------------
@@ -50,12 +52,23 @@ class MailingCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     success_url = reverse_lazy('mail_sending:mail_sending_index')
     permission_required = 'mail_sending.add_mailing'
 
-    def form_valid(self, form):
-        if form.is_valid():
-            new_mat = form.save()
-            new_mat.save()
+    #def form_valid(self, form):
+        #if form.is_valid():
+            #new_mat = form.save()
+            #new_mat.save()
 
+        #return super().form_valid(form)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.status_mail = 'created'
+        self.object.save()
+        if self.object.status_mail in ('running', 'created'):
+            send_mailing(self.object)
+        self.object.owner = self.request.user
+        self.object.save()
         return super().form_valid(form)
+
 
 
 class MailingListView(LoginRequiredMixin, ListView):
