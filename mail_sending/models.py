@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from client.models import Client
+from users.models import User
 
 # Constants
 
@@ -29,6 +30,7 @@ class Message(models.Model):
     '''Сообщение для рассылки'''
     title = models.CharField(max_length=100, verbose_name='Тема письма')
     text = models.TextField(verbose_name='Тело письма')
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Владелец')
 
     def __str__(self):
         return self.title
@@ -50,6 +52,7 @@ class Mailing(models.Model):
     period_mail = models.CharField(max_length=50, verbose_name='Период рассылки', choices=PERIOD_MAIL)
     status_mail = models.CharField(max_length=50, default='created', verbose_name='Статус рассылки',
                                    choices=STATUS_MAIL)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Владелец')
 
     def __str__(self):
         return self.title
