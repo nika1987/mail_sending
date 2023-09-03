@@ -18,8 +18,12 @@
                         <hr>
 
                         <div class="btn-group">
+                            {% if perms.mail_sending.change_message %}
                             <a href="{% url 'mail_sending:message_update' object.pk %}" class="btn btn-outline-success">Edit</a>
+                            {% endif %}
+                            {% if perms.mail_sending.delete_message %}
                             <a href="{% url 'mail_sending:message_delete' object.pk %}" class="btn btn-outline-danger">Delete</a>
+                            {% endif %}
                         </div>
 
                         <a href="{% url 'mail_sending:message_index' %}" type="button" class="btn btn-sm btn-outline-secondary btn-lg float-end">Назад</a>

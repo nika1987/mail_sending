@@ -7,6 +7,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy, reverse
 from mail_sending.forms import MailingForm, MessageForm
 
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+
+
 '''ГЛАВНАЯ'''
 # --------------------------------------------------------------------------------------------------------------------------------
 
@@ -32,15 +36,19 @@ def index(request):
     return render(request, 'mail_sending/index.html', context)
 
 
+
 '''РАССЫЛКИ - Mailing'''
 # --------------------------------------------------------------------------------------------------------------------------------
 
-class MailingCreateView(CreateView):
+class MailingCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     '''CREATE - создается карточка рассылки'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
+    '''PermissionRequiredMixin - доступ к изменению контента, permission_required = приложение.команда_модель'''
 
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy('mail_sending:mail_sending_index')
+    permission_required = 'mail_sending.add_mailing'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -50,26 +58,31 @@ class MailingCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MailingListView(ListView):
+class MailingListView(LoginRequiredMixin, ListView):
     '''READ - чтение списка рассылок'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
 
     model = Mailing
     template_name = 'mail_sending/mail_sending_index.html'
 
 
-class MailingDetailView(DetailView):
+class MailingDetailView(LoginRequiredMixin, DetailView):
     '''READ - чтение одной рассылки'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
 
     model = Mailing
     success_url = reverse_lazy('mail_sending:mail_sending_detail')
 
 
-class MailingUpdateView(UpdateView):
+class MailingUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     '''UPDATE - обновление записи рассылки'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
+    '''PermissionRequiredMixin - доступ к изменению контента, permission_required = приложение.команда_модель'''
 
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy('mail_sending:mail_sending_index')
+    permission_required = 'mail_sending.change_mailing'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -82,22 +95,29 @@ class MailingUpdateView(UpdateView):
         return reverse('mail_sending:mail_sending_detail', args=[self.kwargs.get('pk')])
 
 
-class MailingDeleteView(DeleteView):
+class MailingDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     '''DELETE - удаление записи рассылки'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
+    '''PermissionRequiredMixin - доступ к изменению контента, permission_required = приложение.команда_модель'''
 
     model = Mailing
     success_url = reverse_lazy('mail_sending:mail_sending_index')
+    permission_required = 'mail_sending.delete_mailing'
+
 
 
 '''СООБЩЕНИЕ - Message'''
 # --------------------------------------------------------------------------------------------------------------------------------
 
-class MessageCreateView(CreateView):
+class MessageCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     '''CREATE - создается сообщение'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
+    '''PermissionRequiredMixin - доступ к изменению контента, permission_required = приложение.команда_модель'''
 
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('mail_sending:message_index')
+    permission_required = 'mail_sending.add_message'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -107,26 +127,29 @@ class MessageCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MessageListView(ListView):
+class MessageListView(LoginRequiredMixin, ListView):
     '''READ - чтение списка сообщений'''
 
     model = Message
     template_name = 'mail_sending/message_index.html'
 
 
-class MessageDetailView(DetailView):
+class MessageDetailView(LoginRequiredMixin, DetailView):
     '''READ - чтение одного сообщения'''
 
     model = Message
     success_url = reverse_lazy('mail_sending:message_detail')
 
 
-class MessageUpdateView(UpdateView):
+class MessageUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     '''UPDATE - обновление сообщения'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
+    '''PermissionRequiredMixin - доступ к изменению контента, permission_required = приложение.команда_модель'''
 
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('mail_sending:message_index')
+    permission_required = 'mail_sending.change_message'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -139,25 +162,30 @@ class MessageUpdateView(UpdateView):
         return reverse('mail_sending:message_detail', args=[self.kwargs.get('pk')])
 
 
-class MessageDeleteView(DeleteView):
+class MessageDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     '''DELETE - удаление сообщения'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
+    '''PermissionRequiredMixin - доступ к изменению контента, permission_required = приложение.команда_модель'''
 
     model = Message
     success_url = reverse_lazy('mail_sending:message_index')
+    permission_required = 'mail_sending.delete_message'
 
 
 '''ЛОГИ - log'''
 # --------------------------------------------------------------------------------------------------------------------------------
 
-class LogListView(ListView):
+class LogListView(LoginRequiredMixin, ListView):
     '''READ - чтение списка логов'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
 
     model = Log
     template_name = 'mail_sending/log_index.html'
 
 
-class LogDetailView(DetailView):
+class LogDetailView(LoginRequiredMixin, DetailView):
     '''READ - чтение одного лога'''
+    '''LoginRequiredMixin - скрывает контент от неавторизованных пользователей'''
 
     model = Log
     success_url = reverse_lazy('mail_sending:log_detail')
