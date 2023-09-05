@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     'blog',
     'client',
+    'django_crontab',
 
 ]
 
@@ -165,3 +166,11 @@ if CACHE_ENABLED:
             "LOCATION": os.getenv('CACHE_LOCATION'),
         }
     }
+
+
+# CRONTAB
+CRONJOBS = [
+    ('0 10 * * *', 'mail_sending.cron.daily_send'),  # ежедневно в 10 утра
+    ('0 10 * * 1', 'mail_sending.cron.weekly_send'),  # еженедельно в понедельник 10 утра
+    ('0 10 15 * *', 'mail_sending.cron.monthly_send'),  # ежемесячно 15го числа каждого месяца в 10 утра
+]
